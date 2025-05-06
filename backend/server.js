@@ -1,3 +1,4 @@
+// 
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
@@ -6,7 +7,7 @@ import userRoutes from './routes/userRoutes.js';
 import trainerRoutes from './routes/trainerRoutes.js';
 import bookingRoutes from './routes/bookingRoutes.js';
 import classRoutes from './routes/classRoutes.js';
-
+import adminRoutes from './routes/adminRoutes.js';
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/trainers', trainerRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/classes', classRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Root route
 app.get('/', (req, res) => {
@@ -29,9 +31,12 @@ app.get('/', (req, res) => {
 });
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log('Connected to MongoDB');
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-  })
-  .catch(err => console.error('MongoDB connection error:', err));
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => {
+  console.log('✅ Connected to MongoDB');
+  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+})
+.catch(err => console.error('❌ MongoDB connection error:', err));
